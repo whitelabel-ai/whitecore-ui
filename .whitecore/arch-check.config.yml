@@ -1,0 +1,26 @@
+thresholds:
+  max_function_lines: 40
+  max_parameters: 4
+  min_duplicate_string_length: 30
+  min_duplicate_string_occurrences: 3
+
+ignore:
+  - node_modules/**
+  - .git/**
+  - dist/**
+  - build/**
+  - coverage/**
+  - .whitecore/**
+  - '**/*.test.*'
+  - '**/*.spec.*'
+
+languages:
+  extensions:
+    - .js
+    - .ts
+    - .jsx
+    - .tsx
+    - .py
+    - .go
+    - .java
+    - .cs

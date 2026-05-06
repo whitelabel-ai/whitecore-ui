@@ -178,4 +178,4 @@ Antes de solicitar review de un PR, verifica:
 
 ---
 
-*Revisado: sesión F3. Estándares SOLID/DRY/KISS/YAGNI siguen siendo aplicables tras la introducción del módulo `diagnostic` con Server Actions y componentes cliente. El CDM verifica vigencia automáticamente.*
+*Revisado: sesión F4. Estándares SOLID/DRY/KISS/YAGNI siguen siendo aplicables tras la adición de scoring (`calculateAreaScore`), resumen ejecutivo (`getExecutiveSummary`) y dashboard de consultora (`getCompaniesForSuperadmin`). Las funciones de dominio permanecen puras (sin dependencias de infraestructura). El CDM verifica vigencia automáticamente.*

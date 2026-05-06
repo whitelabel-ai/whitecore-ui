@@ -113,6 +113,6 @@ Los principios arquitectónicos de BRAIN.md definen *cómo estructurar* sistemas
 
 ---
 
-*Revisado: sesión F3. Reglas de negocio del proyecto actualizadas (RN-004 a RN-007). No requieren promoción a BRAIN global por ser específicas del dominio de diagnóstico empresarial.*
+*Revisado: sesión F4. Reglas de negocio del proyecto actualizadas (RN-004 a RN-007) y reglas de autorización de dashboard (`superadmin` vs `company_admin`/`company_user`). No requieren promoción a BRAIN global por ser específicas del dominio de diagnóstico empresarial.*
 
 *Este documento mejora con cada proyecto. Si descubres un patrón que funciona consistentemente, proponlo para subir a BRAIN.md.*

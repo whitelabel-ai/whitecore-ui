@@ -1,0 +1,66 @@
+# Context Dependency Map (CDM)
+# https://whitecore-os.netlify.app/
+#
+# Este archivo mapea documentos de contexto a los archivos de código que los invalidan.
+# Si un archivo bajo 'triggers_on' cambia en un PR y el documento correspondiente
+# NO fue modificado en ese mismo PR, la CI fallará.
+#
+# Adaptar los paths a la estructura real del proyecto.
+
+rules.md:
+  triggers_on:
+    - src/auth/**
+    - src/payments/**
+    - src/permissions/**
+  owner: dev-lead
+  review_instruction: >
+    Revisar si los cambios introducen nueva lógica condicional,
+    reglas de negocio, o modifican permisos/seguridad.
+
+context.md:
+  triggers_on:
+    - package.json
+    - package-lock.json
+    - docker-compose.yml
+    - Dockerfile
+    - prisma/schema.prisma
+    - src/**/*.config.*
+  owner: dev-lead
+  review_instruction: >
+    Revisar si los cambios alteran el stack tecnológico,
+    dependencias principales, o configuración de infraestructura.
+
+project.md:
+  triggers_on:
+    - src/**
+    - docs/**
+  owner: product-owner
+  review_instruction: >
+    Revisar si los cambios afectan el alcance de features en curso,
+    slices planificados, o requieren actualización del roadmap.
+
+# Ejemplo de reglas base vinculadas:
+# docs/global/rules-base.md:
+#   triggers_on:
+#     - src/**
+#     - .whitecore/arch-check.js
+#   owner: architect
+#   review_instruction: >
+#     Si la estructura de código cambia significativamente,
+#     evaluar si los estándares SOLID/DRY siguen siendo aplicables.
+
+# Ejemplo de BRAIN vinculado:
+# BRAIN.md:
+#   triggers_on:
+#     - docs/rules.md
+#   owner: architect
+#   review_instruction: >
+#     Si las reglas de negocio cambian, evaluar si el patrón
+#     merece subir al estándar global (BRAIN.md).
+
+# Ejemplo de NOTES.md por módulo:
+# src/auth/NOTES.md:
+#   triggers_on:
+#     - src/auth/**
+#   owner: dev-auth
+#   review_instruction: Revisar decisiones tácticas y deuda técnica del módulo.

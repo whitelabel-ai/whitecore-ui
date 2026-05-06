@@ -1,0 +1,64 @@
+# SESSION.md — Plantilla de Sesión Activa
+
+> No versionar este archivo en git. Copiar desde `SESSION.md.template` al inicio de cada sesión.
+
+## Contexto recuperado
+
+- **Sesión anterior:** _(enlace o referencia si se archivó)_
+- **Módulos cargados:** _(lista de NOTES.md leídos)_
+- **Pendientes heredados:** _(tareas que quedaron abiertas)_
+
+## Objetivo de esta sesión
+
+> ¿Qué se espera lograr? Una sola oración clara.
+
+## Decisiones tomadas
+
+> Registrar cada decisión de arquitectura, naming, o diseño que se tome.
+> Incluye el "por qué".
+
+- [HH:MM] Decisión: _descripción_ → Razón: _por qué_
+
+## Intentos fallidos
+
+> Registrar intentos que no funcionaron y por qué. Evita repetirlos.
+
+- [HH:MM] Intento: _qué se probó_ → Resultado: _por qué falló_
+
+## Comportamientos inesperados
+
+> Bugs, errores, o resultados no anticipados encontrados durante la sesión.
+
+- [HH:MM] _descripción del comportamiento_
+
+## Deuda técnica identificada
+
+> Lo que se dejó "para después" con justificación.
+
+- _descripción_ → Impacto: _bajo/medio/alto_ → Plan: _cuándo/cómo se abordará_
+
+## Pendientes al cierre
+
+> Tareas que quedan abiertas para la siguiente sesión.
+
+- [ ] _tarea 1_
+- [ ] _tarea 2_
+
+## Propuestas de promoción
+
+Al cerrar la sesión, el agente propone qué conocimiento sube de nivel.
+
+### A NOTES.md (módulo)
+- [ ] _decisión táctica o deuda técnica específica del módulo_
+
+### A docs/ (proyecto)
+- [ ] _cambio en reglas de negocio, stack, o arquitectura_
+
+### A BRAIN.md (global)
+- [ ] _patrón que trasciende este proyecto_
+
+---
+
+**Inicio de sesión:** _[fecha/hora]_  
+**Cierre de sesión:** _[fecha/hora]_  
+**Aprobado por:** _[dev que validó las promociones]_

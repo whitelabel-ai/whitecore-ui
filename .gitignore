@@ -1,0 +1,45 @@
+# .gitignore — WhiteCore OS Template
+
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# Testing
+/test-results/
+/playwright-report/
+/playwright/.cache/
+coverage/
+.nyc_output/
+
+# Session files (WhiteCore OS — no versionar)
+SESSION.md
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/

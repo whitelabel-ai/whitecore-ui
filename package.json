@@ -1,0 +1,21 @@
+{
+  "name": "whitecore-template",
+  "version": "1.2.0",
+  "description": "Plantilla base agnóstica para WhiteCore OS",
+  "private": true,
+  "scripts": {
+    "check:context": "node .whitecore/check-context-freshness.js",
+    "check:arch": "node .whitecore/arch-check.js",
+    "test": "npm run test:unit && npm run test:integration && npm run test:e2e",
+    "test:unit": "echo 'Configura tu runner de unit tests (Jest, Vitest, etc.)'",
+    "test:integration": "echo 'Configura tu runner de integration tests'",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

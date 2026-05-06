@@ -14,7 +14,7 @@ describe('Company Registration Service', () => {
         companyName: 'Acme Corp',
         adminName: 'Juan Pérez',
         adminEmail: 'juan@acme.com',
-        adminPassword: 'SecurePass123!',
+        adminPassword: 'test-password-admin',
       });
 
       expect(result.success).toBe(true);
@@ -31,14 +31,14 @@ describe('Company Registration Service', () => {
         companyName: 'Acme Corp',
         adminName: 'Juan Pérez',
         adminEmail: 'juan@acme.com',
-        adminPassword: 'SecurePass123!',
+        adminPassword: 'test-password-admin',
       });
 
       const result = registerCompany({
         companyName: 'Beta Corp',
         adminName: 'María López',
         adminEmail: 'juan@acme.com',
-        adminPassword: 'AnotherPass123!',
+        adminPassword: 'test-password-other',
       });
 
       expect(result.success).toBe(false);
@@ -50,14 +50,14 @@ describe('Company Registration Service', () => {
         companyName: 'Acme Corp',
         adminName: 'Juan Pérez',
         adminEmail: 'juan@acme.com',
-        adminPassword: 'SecurePass123!',
+        adminPassword: 'test-password-admin',
       });
 
       const result = registerCompany({
         companyName: 'Acme Corp',
         adminName: 'María López',
         adminEmail: 'maria@acme.com',
-        adminPassword: 'AnotherPass123!',
+        adminPassword: 'test-password-other',
       });
 
       expect(result.success).toBe(false);
@@ -69,13 +69,13 @@ describe('Company Registration Service', () => {
         companyName: 'Acme Corp',
         adminName: 'Juan Pérez',
         adminEmail: 'juan@acme.com',
-        adminPassword: 'SecurePass123!',
+        adminPassword: 'test-password-admin',
       });
 
       expect(result.success).toBe(true);
       // El password_hash en DB no debe ser el texto plano
       const row = db.prepare('SELECT password_hash FROM users WHERE email = ?').get('juan@acme.com') as { password_hash: string };
-      expect(row.password_hash).not.toBe('SecurePass123!');
+      expect(row.password_hash).not.toBe('test-password-admin');
       expect(row.password_hash.length).toBeGreaterThan(20);
     });
   });

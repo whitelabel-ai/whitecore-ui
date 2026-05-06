@@ -4,7 +4,7 @@ test('flujo completo: registro de empresa, login y acceso al dashboard', async (
   const uniqueId = Date.now();
   const companyName = `Acme Diagnóstico ${uniqueId}`;
   const adminEmail = `juan${uniqueId}@acme-diag.com`;
-  const password = 'SecurePass123!';
+  const password = 'test-password-e2e';
 
   // 1. Ir a registro
   await page.goto('/register');

@@ -36,6 +36,32 @@ export function initDb() {
 
     CREATE INDEX IF NOT EXISTS idx_users_company ON users(company_id);
     CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+
+    CREATE TABLE IF NOT EXISTS diagnostic_cases (
+      id TEXT PRIMARY KEY,
+      company_id TEXT NOT NULL,
+      status TEXT NOT NULL CHECK(status IN ('draft', 'in_progress', 'completed', 'archived')),
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL,
+      FOREIGN KEY (company_id) REFERENCES companies(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS area_contexts (
+      id TEXT PRIMARY KEY,
+      diagnostic_case_id TEXT NOT NULL,
+      area_key TEXT NOT NULL CHECK(area_key IN ('general', 'strategy', 'operations', 'finance', 'technology', 'human-resources', 'marketing-sales', 'legal')),
+      data_json TEXT NOT NULL DEFAULT '{}',
+      problems_json TEXT NOT NULL DEFAULT '[]',
+      opportunities TEXT,
+      notes TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL,
+      FOREIGN KEY (diagnostic_case_id) REFERENCES diagnostic_cases(id),
+      UNIQUE(diagnostic_case_id, area_key)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_diagnostic_cases_company ON diagnostic_cases(company_id);
+    CREATE INDEX IF NOT EXISTS idx_area_contexts_case ON area_contexts(diagnostic_case_id);
   `);
 }
 

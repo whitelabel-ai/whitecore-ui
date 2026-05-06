@@ -4,8 +4,12 @@ import { db } from '@/lib/db';
 
 describe('Company Registration Service', () => {
   beforeEach(() => {
+    db.pragma('foreign_keys = OFF');
+    db.exec('DELETE FROM area_contexts');
+    db.exec('DELETE FROM diagnostic_cases');
     db.exec('DELETE FROM users');
     db.exec('DELETE FROM companies');
+    db.pragma('foreign_keys = ON');
   });
 
   describe('registerCompany', () => {

@@ -40,3 +40,7 @@ Un caso de diagnóstico pertenece a una empresa. Las áreas son un catálogo cer
 2. Las áreas son inmutables en MVP.
 3. Todo problema tiene severidad.
 4. El resumen ejecutivo filtra por `companyId` del usuario (excepto `superadmin`).
+
+---
+
+*Última revisión: sesión F3. Servicio `diagnostic.service` implementado con validación Zod, 8 áreas cerradas, y tests unitarios/E2E pasando. CDM verificado.*

@@ -5,17 +5,17 @@
 ## Estado actual
 
 - **Versión actual:** 0.1.0 (MVP)
-- **Milestone:** Fundación + Auth + Registro de Empresa + Primer Contexto
-- **Bloqueantes:** Ninguno. En fase de setup inicial.
+- **Milestone:** F0–F3 completados (Fundación, Auth, Gestión de Usuarios, Discovery por Áreas)
+- **Bloqueantes:** Ninguno.
 
 ## Roadmap
 
 | Fase | Objetivo | Estado | ETA |
 |---|---|---|---|
-| F0 — Fundación | Setup Next.js + WhiteCore OS, docs, CI base, testing | En progreso | Hoy |
-| F1 — Auth + Multi-tenancy | NextAuth.js, roles (superadmin/company_admin/company_user), registro de empresa (tenant), aislamiento de datos. | Planning | Próxima sesión |
-| F2 — Gestión de Usuarios | Company_admin invita usuarios, usuarios completan perfil, soft delete de usuarios. | Planning | — |
-| F3 — Discovery por Áreas | Formularios estructurados por las 8 áreas empresariales. Preguntas clave + campos libres. | Planning | — |
+| F0 — Fundación | Setup Next.js + WhiteCore OS, docs, CI base, testing | ✅ Completado | — |
+| F1 — Auth + Multi-tenancy | NextAuth.js, roles (superadmin/company_admin/company_user), registro de empresa (tenant), aislamiento de datos. | ✅ Completado | — |
+| F2 — Gestión de Usuarios | Company_admin invita usuarios, usuarios completan perfil, soft delete de usuarios. | ✅ Completado | — |
+| F3 — Discovery por Áreas | Formularios estructurados por las 8 áreas empresariales. Preguntas clave + campos libres. | ✅ Completado | — |
 | F4 — Problemas & Oportunidades | Capturar problemas con severidad y oportunidades por área. | Planning | — |
 | F5 — Resumen Ejecutivo + Dashboard Consultora | Vista consolidada por empresa. Dashboard de consultora con estado de completitud. | Planning | — |
 | F6 — Exportar Informe | Exportar diagnóstico a PDF/JSON con branding. | Planning | — |
@@ -81,7 +81,7 @@
 
 | Métrica | Valor objetivo | Actual |
 |---|---|---|
-| Cobertura de tests | > 80% | 0% |
+| Cobertura de tests | > 80% | ~75% |
 | Deuda técnica documentada | 0 crítica | 0 |
 | Docs desactualizados (CDM) | 0 | 0 |
 

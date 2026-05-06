@@ -70,7 +70,7 @@ function parseYaml(content) {
 
     const listItem = line.match(/^\s+-\s+(.*)$/);
     if (listItem) {
-      const val = listItem[1].trim();
+      const val = listItem[1].trim().replace(/^['"]|['"]$/g, '');
       if (Array.isArray(result[currentKey])) {
         result[currentKey].push(val);
       } else if (currentSubKey && Array.isArray(result[currentKey][currentSubKey])) {
@@ -359,7 +359,7 @@ function main() {
     }
 
     // Strings mágicos duplicados
-    const stringRegex = /["']([^"']{30,})["']/g;
+    const stringRegex = /["']([^"'\n]{30,})["']/g;
     let m;
     while ((m = stringRegex.exec(content)) !== null) {
       const s = m[1];

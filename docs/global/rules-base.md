@@ -176,4 +176,4 @@ Antes de solicitar review de un PR, verifica:
 
 ---
 
-*Este documento mejora con cada proyecto. Si un estándar no aplica a tu stack, documenta la excepción en `docs/context.md`.*
+*Revisado: sesión F3. Estándares SOLID/DRY/KISS/YAGNI siguen siendo aplicables tras la introducción del módulo `diagnostic` con Server Actions y componentes cliente. El CDM verifica vigencia automáticamente.*

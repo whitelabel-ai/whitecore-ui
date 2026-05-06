@@ -9,6 +9,13 @@ export default defineConfig({
     globals: true,
     include: ['src/**/*.test.{ts,tsx}', 'tests/unit/**/*.{ts,tsx}'],
     exclude: ['node_modules', '.next', 'tests/e2e', 'tests/integration'],
+    fileParallelism: false,
+    pool: 'forks',
+    poolOptions: {
+      forks: {
+        singleFork: true,
+      },
+    },
   },
   resolve: {
     alias: {

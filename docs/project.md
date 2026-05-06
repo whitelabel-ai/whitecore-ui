@@ -12,9 +12,10 @@
 
 | Fase | Objetivo | Estado | ETA |
 |---|---|---|---|
-| F0 — Fundación | Setup Next.js + WhiteCore OS, docs, CI base, testing | En progreso | Hoy |
-| F1 — Auth + Multi-tenancy | NextAuth.js, roles (superadmin/company_admin/company_user), registro de empresa (tenant), aislamiento de datos. | Planning | Próxima sesión |
-| F2 — Gestión de Usuarios | Company_admin invita usuarios, usuarios completan perfil, soft delete de usuarios. | Planning | — |
+| F0 — Fundación | Setup Next.js + WhiteCore OS, docs, CI base, testing | Completado | Done |
+| F1 — Auth + Multi-tenancy | NextAuth.js, roles (superadmin/company_admin/company_user), registro de empresa (tenant), aislamiento de datos. | Completado | Done |
+| F2 — Gestión de Usuarios | Company_admin invita usuarios company_user, soft delete de usuarios, UI /dashboard/users. | En progreso | Hoy |
+| F3 — Discovery por Áreas | Formularios estructurados por las 8 áreas empresariales. Preguntas clave + campos libres. | Planning | — |
 | F3 — Discovery por Áreas | Formularios estructurados por las 8 áreas empresariales. Preguntas clave + campos libres. | Planning | — |
 | F4 — Problemas & Oportunidades | Capturar problemas con severidad y oportunidades por área. | Planning | — |
 | F5 — Resumen Ejecutivo + Dashboard Consultora | Vista consolidada por empresa. Dashboard de consultora con estado de completitud. | Planning | — |

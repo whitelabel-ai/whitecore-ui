@@ -124,6 +124,11 @@ Empresa se registra (crea tenant)
 - **Selectores recomendados:** roles ARIA, `data-testid`, texto visible.
 - **Evitar:** selectores CSS frágiles.
 
+### Configuración de Vitest
+
+- **File parallelism desactivado:** `fileParallelism: false` + `pool: 'forks'` para evitar conflictos de SQLite compartida entre archivos de test.
+- **Tests unitarios de dominio:** Se limpia la DB en `beforeEach` con `PRAGMA foreign_keys = OFF` para permitir borrado limpio.
+
 ### Cobertura mínima
 
 - **Unitarios:** > 80% de lógica de dominio (validaciones, scoring, estados, auth).

@@ -13,6 +13,7 @@ Un usuario siempre pertenece a exactamente una empresa (`companyId`). No hay usu
 - **Solo company_admin puede invitar:** El endpoint de invitación verifica que el requester tenga rol `company_admin`.
 - **Invitación simple en MVP:** El admin crea el usuario directamente (nombre, email, rol). El usuario recibe sus credenciales y hace login. No hay "email de invitación" en MVP.
 - **company_user puede ver resumen:** Aunque registra su propio contexto, también puede ver el resumen ejecutivo consolidado de su empresa.
+- **Tests secuenciales:** Se configura `vitest.config.ts` con `fileParallelism: false` y `pool: 'forks'` para evitar conflictos de SQLite compartida entre tests unitarios.
 
 ## Deuda técnica
 

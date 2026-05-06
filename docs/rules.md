@@ -47,9 +47,9 @@
 
 ### RN-006: Solo `company_admin` puede invitar usuarios
 
-- **Descripción:** La gestión de usuarios dentro de una empresa (invitar, desactivar) es responsabilidad exclusiva del `company_admin`. Los `company_user` no pueden invitar a nadie.
-- **Aplicación:** Módulo `company`, API routes de invitación.
-- **Validación:** Middleware de autorización + tests de integración.
+- **Descripción:** La gestión de usuarios dentro de una empresa (invitar, desactivar) es responsabilidad exclusiva del `company_admin`. Los `company_user` no pueden invitar a nadie. Solo se permite invitar usuarios con rol `company_user` (no admins).
+- **Aplicación:** Módulo `user`, Server Action `inviteUserAction`, API routes de invitación.
+- **Validación:** Middleware de autorización + tests de integración + tests unitarios en `user-invitation.service.ts`.
 
 ### RN-007: Superadmin accede a todas las empresas
 

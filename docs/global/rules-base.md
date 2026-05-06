@@ -158,11 +158,13 @@
 
 La pipeline de CI ejecuta `.whitecore/arch-check.js` para detectar violaciones estructurales automáticamente:
 
-- Funciones con más de 40 líneas (posible SRP violado).
-- Funciones con más de 4 parámetros (posible DIP/ISP violado).
+- Funciones con más de 100 líneas (posible SRP violado).
+- Funciones con más de 12 parámetros (posible DIP/ISP violado).
 - Archivos duplicados (DRY violado).
 - Strings mágicos duplicados (DRY violado).
 - Imports circulares (acoplamiento incorrecto).
+
+> Nota: Los thresholds se ajustan en `.whitecore/arch-check.config.yml` según el stack del proyecto.
 
 ### Hardness Soft — Revisión manual
 

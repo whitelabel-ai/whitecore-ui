@@ -111,4 +111,8 @@ Los principios arquitectónicos de BRAIN.md definen *cómo estructurar* sistemas
 - **Multi-tenancy con companyId obligatorio:** Aislamiento de datos por tenant desde el día 1. Todas las queries filtran por `companyId`.
 - **Tests secuenciales con DB compartida (SQLite):** En proyectos con SQLite local, usar `fileParallelism: false` en Vitest para evitar race conditions entre archivos de test.
 
+---
+
+*Revisado: sesión F3. Reglas de negocio del proyecto actualizadas (RN-004 a RN-007). No requieren promoción a BRAIN global por ser específicas del dominio de diagnóstico empresarial.*
+
 *Este documento mejora con cada proyecto. Si descubres un patrón que funciona consistentemente, proponlo para subir a BRAIN.md.*

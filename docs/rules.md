@@ -93,7 +93,7 @@
 
 ## Reglas de código
 
-- [ ] No commits directos a `main` o `develop`.
+- [x] No commits directos a `main` o `develop`.
 - [ ] Todo PR requiere al menos 1 aprobación humana.
 - [ ] Toda feature nueva requiere test de aceptación (E2E si es flujo crítico).
 - [ ] No se permite código sin tipo / sin tipado explícito. `noImplicitAny: true`.
@@ -102,4 +102,4 @@
 
 ---
 
-*Actualizar este documento cuando cambien las reglas. El CDM detectará automáticamente si se modifican archivos relacionados.*
+*Actualizado: sesión F3. Reglas RN-004 a RN-007 validadas contra implementación. El CDM detectará automáticamente si se modifican archivos relacionados.*

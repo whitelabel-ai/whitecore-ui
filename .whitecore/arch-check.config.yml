@@ -1,20 +1,21 @@
 thresholds:
   max_function_lines: 100
   max_parameters: 12
-  min_duplicate_string_length: 50
-  min_duplicate_string_occurrences: 5
+  min_duplicate_string_length: 30
+  min_duplicate_string_occurrences: 4
 
 ignore:
   - node_modules/**
   - .git/**
   - dist/**
   - build/**
-  - .next/**
   - coverage/**
   - .whitecore/**
+  - .next/**
+  - local.db*
+  - playwright.config.*
   - '**/*.test.*'
   - '**/*.spec.*'
-  - playwright.config.ts
 
 languages:
   extensions:

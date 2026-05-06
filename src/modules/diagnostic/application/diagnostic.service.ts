@@ -129,3 +129,116 @@ export function getDiagnosticSummary(diagnosticCaseId: string) {
     highProblems,
   };
 }
+
+const SEVERITY_WEIGHTS: Record<string, number> = {
+  critical: 25,
+  high: 15,
+  medium: 8,
+  low: 3,
+};
+
+const SEVERITY_ORDER = ['critical', 'high', 'medium', 'low'];
+
+export function calculateAreaScore(problems: Array<{ severity: string }>): number {
+  const penalty = problems.reduce((sum, p) => sum + (SEVERITY_WEIGHTS[p.severity] || 0), 0);
+  return Math.max(0, 100 - penalty);
+}
+
+export function getExecutiveSummary(diagnosticCaseId: string) {
+  const rows = db.prepare(`
+    SELECT area_key, data_json, problems_json, opportunities, notes
+    FROM area_contexts
+    WHERE diagnostic_case_id = ?
+  `).all(diagnosticCaseId) as Array<{
+    area_key: string;
+    data_json: string;
+    problems_json: string;
+    opportunities: string;
+    notes: string;
+  }>;
+
+  let totalProblems = 0;
+  let criticalProblems = 0;
+  let highProblems = 0;
+  const areaScores: Array<{ areaKey: string; score: number; opportunities: string }> = [];
+  const allProblems: Array<{ description: string; severity: string; areaKey: string }> = [];
+
+  for (const row of rows) {
+    const problems = JSON.parse(row.problems_json) as Array<{ description: string; severity: string }>;
+    totalProblems += problems.length;
+    criticalProblems += problems.filter((p) => p.severity === 'critical').length;
+    highProblems += problems.filter((p) => p.severity === 'high').length;
+
+    const score = calculateAreaScore(problems);
+    areaScores.push({ areaKey: row.area_key, score, opportunities: row.opportunities });
+
+    for (const p of problems) {
+      allProblems.push({ description: p.description, severity: p.severity, areaKey: row.area_key });
+    }
+  }
+
+  const overallScore = areaScores.length > 0
+    ? Math.round(areaScores.reduce((sum, a) => sum + a.score, 0) / areaScores.length)
+    : 0;
+
+  const topProblems = allProblems.sort(
+    (a, b) => SEVERITY_ORDER.indexOf(a.severity) - SEVERITY_ORDER.indexOf(b.severity)
+  );
+
+  return {
+    areasCompleted: rows.length,
+    totalProblems,
+    criticalProblems,
+    highProblems,
+    overallScore,
+    areaScores,
+    topProblems,
+  };
+}
+
+export function getCompaniesForSuperadmin() {
+  const companies = db.prepare(`
+    SELECT id, name, industry, size, created_at
+    FROM companies
+    WHERE deleted_at IS NULL
+    ORDER BY created_at DESC
+  `).all() as Array<{
+    id: string;
+    name: string;
+    industry: string | null;
+    size: string | null;
+    created_at: string;
+  }>;
+
+  const result = [];
+  for (const company of companies) {
+    const caseRow = db.prepare(`
+      SELECT id FROM diagnostic_cases WHERE company_id = ? AND status != 'archived'
+    `).get(company.id) as { id: string } | undefined;
+
+    let areasCompleted = 0;
+    let totalProblems = 0;
+    let criticalProblems = 0;
+
+    if (caseRow) {
+      const summary = getDiagnosticSummary(caseRow.id);
+      areasCompleted = summary.areasCompleted;
+      totalProblems = summary.totalProblems;
+      criticalProblems = summary.criticalProblems;
+    }
+
+    result.push({
+      id: company.id,
+      name: company.name,
+      industry: company.industry,
+      size: company.size,
+      createdAt: company.created_at,
+      diagnosticCaseId: caseRow?.id || null,
+      areasCompleted,
+      totalProblems,
+      criticalProblems,
+    });
+  }
+
+  return result;
+}

@@ -1,5 +1,12 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { saveAreaContext, getAreaContext, getDiagnosticSummary } from '@/modules/diagnostic/application/diagnostic.service';
+import {
+  saveAreaContext,
+  getAreaContext,
+  getDiagnosticSummary,
+  calculateAreaScore,
+  getExecutiveSummary,
+  getCompaniesForSuperadmin,
+} from '@/modules/diagnostic/application/diagnostic.service';
 import { registerCompany } from '@/modules/company/application/company-registration.service';
 import { db } from '@/lib/db';
 
@@ -24,7 +31,6 @@ describe.sequential('Diagnostic Service', () => {
 
     const companyId = companyResult.company!.id;
 
-    // Crear caso de diagnóstico
     const now = new Date().toISOString();
     const caseId = crypto.randomUUID();
     db.prepare(`
@@ -129,6 +135,126 @@ describe.sequential('Diagnostic Service', () => {
       expect(summary.totalProblems).toBe(3);
       expect(summary.criticalProblems).toBe(1);
       expect(summary.highProblems).toBe(1);
+    });
+  });
+
+  describe('calculateAreaScore', () => {
+    it('debería retornar 100 si no hay problemas', () => {
+      expect(calculateAreaScore([])).toBe(100);
+    });
+
+    it('debería restar por severidad', () => {
+      const score = calculateAreaScore([
+        { description: 'P1', severity: 'critical' },
+        { description: 'P2', severity: 'high' },
+      ]);
+      expect(score).toBe(60); // 100 - 25 - 15
+    });
+
+    it('no debería bajar de 0', () => {
+      const score = calculateAreaScore([
+        { description: 'P1', severity: 'critical' },
+        { description: 'P2', severity: 'critical' },
+        { description: 'P3', severity: 'critical' },
+        { description: 'P4', severity: 'critical' },
+        { description: 'P5', severity: 'critical' },
+      ]);
+      expect(score).toBe(0);
+    });
+  });
+
+  describe('getExecutiveSummary', () => {
+    it('debería retornar resumen ejecutivo con scores', () => {
+      const { caseId } = setupCompanyAndCase();
+
+      saveAreaContext({
+        diagnosticCaseId: caseId,
+        areaKey: 'strategy',
+        data: { mission: 'X' },
+        problems: [
+          { description: 'Sin plan', severity: 'critical' },
+        ],
+        opportunities: 'Hacer plan',
+        notes: '',
+      });
+
+      saveAreaContext({
+        diagnosticCaseId: caseId,
+        areaKey: 'finance',
+        data: {},
+        problems: [
+          { description: 'Flujo negativo', severity: 'high' },
+          { description: 'Deuda', severity: 'medium' },
+        ],
+        opportunities: 'Refinanciar',
+        notes: '',
+      });
+
+      const summary = getExecutiveSummary(caseId);
+      expect(summary.areasCompleted).toBe(2);
+      expect(summary.totalProblems).toBe(3);
+      expect(summary.overallScore).toBeGreaterThan(0);
+      expect(summary.areaScores.length).toBe(2);
+
+      const strategyScore = summary.areaScores.find((a) => a.areaKey === 'strategy');
+      expect(strategyScore!.score).toBe(75); // 100 - 25
+
+      const financeScore = summary.areaScores.find((a) => a.areaKey === 'finance');
+      expect(financeScore!.score).toBe(77); // 100 - 15 - 8
+    });
+
+    it('debería listar problemas ordenados por severidad', () => {
+      const { caseId } = setupCompanyAndCase();
+
+      saveAreaContext({
+        diagnosticCaseId: caseId,
+        areaKey: 'strategy',
+        data: {},
+        problems: [
+          { description: 'Sin plan', severity: 'critical' },
+        ],
+        opportunities: '',
+        notes: '',
+      });
+
+      saveAreaContext({
+        diagnosticCaseId: caseId,
+        areaKey: 'finance',
+        data: {},
+        problems: [
+          { description: 'Flujo negativo', severity: 'high' },
+        ],
+        opportunities: '',
+        notes: '',
+      });
+
+      const summary = getExecutiveSummary(caseId);
+      expect(summary.topProblems[0].severity).toBe('critical');
+      expect(summary.topProblems[1].severity).toBe('high');
+    });
+  });
+
+  describe('getCompaniesForSuperadmin', () => {
+    it('debería listar empresas con métricas de diagnóstico', () => {
+      const { companyId, caseId } = setupCompanyAndCase();
+
+      saveAreaContext({
+        diagnosticCaseId: caseId,
+        areaKey: 'strategy',
+        data: {},
+        problems: [{ description: 'P1', severity: 'critical' }],
+        opportunities: '',
+        notes: '',
+      });
+
+      const companies = getCompaniesForSuperadmin();
+      expect(companies.length).toBeGreaterThanOrEqual(1);
+
+      const company = companies.find((c) => c.id === companyId);
+      expect(company).toBeDefined();
+      expect(company!.areasCompleted).toBe(1);
+      expect(company!.totalProblems).toBe(1);
+      expect(company!.criticalProblems).toBe(1);
     });
   });
 });

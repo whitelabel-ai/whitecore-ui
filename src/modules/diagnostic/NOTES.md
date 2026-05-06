@@ -21,7 +21,7 @@ Un caso de diagnóstico pertenece a una empresa. Las áreas son un catálogo cer
 - **Sin asignación de áreas por rol:** En MVP cualquier usuario puede completar cualquier área. Post-MVP: asignar áreas específicas a usuarios.
 - **Sin documentos adjuntos:** Solo texto en MVP.
 - **Sin historial de cambios:** No se guarda quién modificó qué.
-- **Sin scoring:** No hay índice de madurez automático.
+- **Scoring implementado en F4:** Score por área (0-100) basado en severidad de problemas. Overall score = promedio de áreas completadas.
 
 ## Dependencias internas
 

@@ -5,7 +5,7 @@
 ## Estado actual
 
 - **Versión actual:** 0.1.0 (MVP)
-- **Milestone:** F0–F3 completados (Fundación, Auth, Gestión de Usuarios, Discovery por Áreas)
+- **Milestone:** F0–F4 completados (Fundación, Auth, Gestión de Usuarios, Discovery por Áreas, Resumen Ejecutivo + Dashboard Consultora)
 - **Bloqueantes:** Ninguno.
 
 ## Roadmap
@@ -16,8 +16,8 @@
 | F1 — Auth + Multi-tenancy | NextAuth.js, roles (superadmin/company_admin/company_user), registro de empresa (tenant), aislamiento de datos. | Completado | Done |
 | F2 — Gestión de Usuarios | Company_admin invita usuarios company_user, soft delete de usuarios, UI /dashboard/users. | Completado | Done |
 | F3 — Discovery por Áreas | Formularios estructurados por las 8 áreas empresariales. Preguntas clave + campos libres. | Completado | Done |
-| F4 — Problemas & Oportunidades | Capturar problemas con severidad y oportunidades por área. | Planning | — |
-| F5 — Resumen Ejecutivo + Dashboard Consultora | Vista consolidada por empresa. Dashboard de consultora con estado de completitud. | Planning | — |
+| F4 — Resumen Ejecutivo + Dashboard Consultora | Scoring por área, vista consolidada por empresa, dashboard de consultora con estado de completitud. | Completado | Done |
+| F5 — Exportar Informe | Exportar diagnóstico a PDF/JSON con branding. | Planning | — |
 | F6 — Exportar Informe | Exportar diagnóstico a PDF/JSON con branding. | Planning | — |
 
 ## Features en curso

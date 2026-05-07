@@ -110,6 +110,8 @@ Los principios arquitectónicos de BRAIN.md definen *cómo estructurar* sistemas
 
 - **Multi-tenancy con companyId obligatorio:** Aislamiento de datos por tenant desde el día 1. Todas las queries filtran por `companyId`.
 - **Tests secuenciales con DB compartida (SQLite):** En proyectos con SQLite local, usar `fileParallelism: false` en Vitest para evitar race conditions entre archivos de test.
+- **Audit automático en Server Actions:** Registrar cambios sin contaminar el dominio puro. Las funciones de dominio retornan IDs + metadatos; los Server Actions (adaptadores) manejan los side effects de auditoría.
+- **Scoring de madurez por severidad:** Fórmula reutilizable = 100 - Σ(penalizaciones por severidad). Aplicable a cualquier dominio de diagnóstico/assessment.
 
 ---
 

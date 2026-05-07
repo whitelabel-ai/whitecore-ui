@@ -102,4 +102,4 @@
 
 ---
 
-*Revisado: sesión F4. Reglas RN-004 a RN-007 siguen vigentes tras scoring y resumen ejecutivo. Nuevas reglas de autorización: `superadmin` accede a `/admin/dashboard`, `company_admin`/`company_user` acceden a `/dashboard/summary`. El CDM detectará automáticamente si se modifican archivos relacionados.*
+*Revisado: sesión F5. Reglas RN-004 a RN-007 siguen vigentes tras exportación de informes (`generateDiagnosticReport`). No hay nuevas reglas de negocio ni cambios de autorización. El CDM detectará automáticamente si se modifican archivos relacionados.*

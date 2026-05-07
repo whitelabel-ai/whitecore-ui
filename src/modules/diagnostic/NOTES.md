@@ -23,6 +23,7 @@ Un caso de diagnóstico pertenece a una empresa. Las áreas son un catálogo cer
 - **Sin historial de cambios:** No se guarda quién modificó qué.
 - **Scoring implementado en F4:** Score por área (0-100) basado en severidad de problemas. Overall score = promedio de áreas completadas.
 - **Exportación de informes implementada en F5:** `generateDiagnosticReport` genera informe completo (JSON). Vista HTML imprimible en `/dashboard/report` con branding de empresa.
+- **Auditoría implementada en F6:** `area_context_audits` guarda quién editó qué área, cuándo y qué acción (create/update). Timeline por empresa (`/dashboard/timeline`) y global para consultora (`/admin/timeline`).
 
 ## Dependencias internas
 

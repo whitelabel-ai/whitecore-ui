@@ -113,6 +113,6 @@ Los principios arquitectónicos de BRAIN.md definen *cómo estructurar* sistemas
 
 ---
 
-*Revisado: sesión F5. Reglas de negocio del proyecto actualizadas (RN-004 a RN-007) y reglas de autorización. Exportación de informes (`generateDiagnosticReport`) es específica del dominio y no amerita patrón global. No requieren promoción a BRAIN global.*
+*Revisado: sesión F6. Reglas de negocio y autorización actualizadas. Auditoría de cambios (`area_context_audits`) es específica del dominio y no amerita patrón global. No requieren promoción a BRAIN global.*
 
 *Este documento mejora con cada proyecto. Si descubres un patrón que funciona consistentemente, proponlo para subir a BRAIN.md.*

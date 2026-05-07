@@ -7,6 +7,9 @@ import {
   getExecutiveSummary,
   getCompaniesForSuperadmin,
   generateDiagnosticReport,
+  auditAreaContextChange,
+  getTimelineByCompany,
+  getTimelineForSuperadmin,
 } from '@/modules/diagnostic/application/diagnostic.service';
 import { registerCompany } from '@/modules/company/application/company-registration.service';
 import { db } from '@/lib/db';
@@ -31,6 +34,7 @@ describe.sequential('Diagnostic Service', () => {
     expect(companyResult.success).toBe(true);
 
     const companyId = companyResult.company!.id;
+    const userId = companyResult.user!.id;
 
     const now = new Date().toISOString();
     const caseId = crypto.randomUUID();
@@ -39,7 +43,7 @@ describe.sequential('Diagnostic Service', () => {
       VALUES (?, ?, ?, ?, ?)
     `).run(caseId, companyId, 'in_progress', now, now);
 
-    return { companyId, caseId };
+    return { companyId, caseId, userId };
   }
 
   describe('saveAreaContext', () => {
@@ -286,6 +290,68 @@ describe.sequential('Diagnostic Service', () => {
     it('debería retornar null si el caso no existe', () => {
       const report = generateDiagnosticReport('non-existent-case-id');
       expect(report).toBeNull();
+    });
+  });
+
+  describe('auditAreaContextChange', () => {
+    it('debería crear entrada de auditoría', () => {
+      const { companyId, caseId, userId } = setupCompanyAndCase();
+
+      const result = saveAreaContext({
+        diagnosticCaseId: caseId,
+        areaKey: 'strategy',
+        data: {},
+        problems: [],
+        opportunities: '',
+        notes: '',
+      });
+      expect(result.success).toBe(true);
+
+      auditAreaContextChange(
+        result.areaContextId,
+        caseId,
+        companyId,
+        userId,
+        'Test User',
+        'strategy',
+        'create'
+      );
+
+      const timeline = getTimelineByCompany(companyId);
+      expect(timeline.length).toBe(1);
+      expect(timeline[0].userName).toBe('Test User');
+      expect(timeline[0].action).toBe('create');
+      expect(timeline[0].areaKey).toBe('strategy');
+    });
+  });
+
+  describe('getTimelineByCompany', () => {
+    it('debería retornar timeline ordenado por fecha descendente', () => {
+      const { companyId, caseId, userId } = setupCompanyAndCase();
+
+      const r1 = saveAreaContext({ diagnosticCaseId: caseId, areaKey: 'strategy', data: {}, problems: [], opportunities: '', notes: '' });
+      auditAreaContextChange(r1.areaContextId, caseId, companyId, userId, 'User A', 'strategy', 'create');
+
+      const r2 = saveAreaContext({ diagnosticCaseId: caseId, areaKey: 'finance', data: {}, problems: [], opportunities: '', notes: '' });
+      auditAreaContextChange(r2.areaContextId, caseId, companyId, userId, 'User B', 'finance', 'create');
+
+      const timeline = getTimelineByCompany(companyId);
+      expect(timeline.length).toBe(2);
+      expect(timeline[0].areaKey).toBe('finance'); // más reciente primero
+      expect(timeline[1].areaKey).toBe('strategy');
+    });
+  });
+
+  describe('getTimelineForSuperadmin', () => {
+    it('debería retornar timeline de todas las empresas', () => {
+      const { companyId, caseId, userId } = setupCompanyAndCase();
+
+      const r1 = saveAreaContext({ diagnosticCaseId: caseId, areaKey: 'strategy', data: {}, problems: [], opportunities: '', notes: '' });
+      auditAreaContextChange(r1.areaContextId, caseId, companyId, userId, 'User A', 'strategy', 'create');
+
+      const timeline = getTimelineForSuperadmin();
+      expect(timeline.length).toBeGreaterThanOrEqual(1);
+      expect(timeline[0].companyName).toBeDefined();
     });
   });
 });

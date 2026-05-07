@@ -102,4 +102,4 @@
 
 ---
 
-*Revisado: sesión F5. Reglas RN-004 a RN-007 siguen vigentes tras exportación de informes (`generateDiagnosticReport`). No hay nuevas reglas de negocio ni cambios de autorización. El CDM detectará automáticamente si se modifican archivos relacionados.*
+*Revisado: sesión F6. Reglas RN-004 a RN-007 siguen vigentes tras auditoría y timeline (`area_context_audits`). No hay nuevas reglas de negocio ni cambios de autorización. El CDM detectará automáticamente si se modifican archivos relacionados.*

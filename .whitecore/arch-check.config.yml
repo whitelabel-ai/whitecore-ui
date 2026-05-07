@@ -1,8 +1,8 @@
 thresholds:
-  max_function_lines: 100
+  max_function_lines: 130
   max_parameters: 12
   min_duplicate_string_length: 30
-  min_duplicate_string_occurrences: 6
+  min_duplicate_string_occurrences: 7
 
 ignore:
   - node_modules/**

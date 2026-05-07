@@ -6,6 +6,7 @@ import {
   calculateAreaScore,
   getExecutiveSummary,
   getCompaniesForSuperadmin,
+  generateDiagnosticReport,
 } from '@/modules/diagnostic/application/diagnostic.service';
 import { registerCompany } from '@/modules/company/application/company-registration.service';
 import { db } from '@/lib/db';
@@ -255,6 +256,36 @@ describe.sequential('Diagnostic Service', () => {
       expect(company!.areasCompleted).toBe(1);
       expect(company!.totalProblems).toBe(1);
       expect(company!.criticalProblems).toBe(1);
+    });
+  });
+
+  describe('generateDiagnosticReport', () => {
+    it('debería retornar informe completo con datos de empresa y áreas', () => {
+      const { companyId, caseId } = setupCompanyAndCase();
+
+      saveAreaContext({
+        diagnosticCaseId: caseId,
+        areaKey: 'strategy',
+        data: { mission: 'Misión X' },
+        problems: [{ description: 'Sin plan', severity: 'critical' }],
+        opportunities: 'Crecer',
+        notes: 'Urgente',
+      });
+
+      const report = generateDiagnosticReport(caseId);
+      expect(report).toBeDefined();
+      expect(report.company.id).toBe(companyId);
+      expect(report.caseId).toBe(caseId);
+      expect(report.areas.length).toBe(1);
+      expect(report.areas[0].areaKey).toBe('strategy');
+      expect(report.areas[0].problems).toHaveLength(1);
+      expect(report.summary.overallScore).toBe(75);
+      expect(report.generatedAt).toBeDefined();
+    });
+
+    it('debería retornar null si el caso no existe', () => {
+      const report = generateDiagnosticReport('non-existent-case-id');
+      expect(report).toBeNull();
     });
   });
 });

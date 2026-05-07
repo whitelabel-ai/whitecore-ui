@@ -22,6 +22,7 @@ Un caso de diagnóstico pertenece a una empresa. Las áreas son un catálogo cer
 - **Sin documentos adjuntos:** Solo texto en MVP.
 - **Sin historial de cambios:** No se guarda quién modificó qué.
 - **Scoring implementado en F4:** Score por área (0-100) basado en severidad de problemas. Overall score = promedio de áreas completadas.
+- **Exportación de informes implementada en F5:** `generateDiagnosticReport` genera informe completo (JSON). Vista HTML imprimible en `/dashboard/report` con branding de empresa.
 
 ## Dependencias internas
 

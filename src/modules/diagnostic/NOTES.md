@@ -19,11 +19,17 @@ Un caso de diagnóstico pertenece a una empresa. Las áreas son un catálogo cer
 ## Deuda técnica
 
 - **Sin asignación de áreas por rol:** En MVP cualquier usuario puede completar cualquier área. Post-MVP: asignar áreas específicas a usuarios.
-- **Sin documentos adjuntos:** Solo texto en MVP.
-- **Sin historial de cambios:** No se guarda quién modificó qué.
-- **Scoring implementado en F4:** Score por área (0-100) basado en severidad de problemas. Overall score = promedio de áreas completadas.
-- **Exportación de informes implementada en F5:** `generateDiagnosticReport` genera informe completo (JSON). Vista HTML imprimible en `/dashboard/report` con branding de empresa.
-- **Auditoría implementada en F6:** `area_context_audits` guarda quién editó qué área, cuándo y qué acción (create/update). Timeline por empresa (`/dashboard/timeline`) y global para consultora (`/admin/timeline`).
+- **Sin documentos adjuntos:** Solo texto en MVP. Post-MVP: subida de archivos/evidencia por área.
+- **Sin notificaciones por email:** No hay alertas cuando alguien completa un área o hay problemas críticos.
+- **Sin historial de versiones (diff):** Audit log guarda quién editó y cuándo, pero no qué cambió exactamente.
+- **NextAuth v4 deprecated middleware:** Console warning sobre `middleware` → `proxy`. Post-MVP: migrar cuando Next.js estabilice.
+
+## Patrones implementados
+
+- **Scoring por severidad (F4):** Score por área = 100 - suma de penalizaciones. critical(-25), high(-15), medium(-8), low(-3). Floor en 0. Overall score = promedio de áreas completadas.
+- **Exportación de informes (F5):** `generateDiagnosticReport` retorna informe completo (JSON). Vista HTML imprimible en `/dashboard/report` con branding de empresa.
+- **Audit automático en Server Actions (F6):** `saveAreaContextAction` inserta audit row tras cada guardado. El dominio (`saveAreaContext`) permanece puro; los side effects viven en el adaptador (Server Action).
+- **`saveAreaContext` retorna `areaContextId` + `action`:** Facilita downstream operations (audit log) sin re-query.
 
 ## Dependencias internas
 
@@ -45,4 +51,4 @@ Un caso de diagnóstico pertenece a una empresa. Las áreas son un catálogo cer
 
 ---
 
-*Última revisión: sesión F3. Servicio `diagnostic.service` implementado con validación Zod, 8 áreas cerradas, y tests unitarios/E2E pasando. CDM verificado.*
+*Última revisión: sesión F6. Servicio `diagnostic.service` incluye scoring, generación de informes, auditoría y timeline. Tests unitarios (15) y E2E (9) pasando. CDM verificado.*

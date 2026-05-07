@@ -336,7 +336,7 @@ export function getTimelineByCompany(companyId: string) {
     SELECT id, area_context_id, user_id, user_name, area_key, action, created_at
     FROM area_context_audits
     WHERE company_id = ?
-    ORDER BY created_at DESC
+    ORDER BY created_at DESC, id DESC
   `).all(companyId) as Array<{
     id: string;
     area_context_id: string;
@@ -364,7 +364,7 @@ export function getTimelineForSuperadmin() {
            c.name as company_name, a.company_id
     FROM area_context_audits a
     JOIN companies c ON c.id = a.company_id
-    ORDER BY a.created_at DESC
+    ORDER BY a.created_at DESC, a.id DESC
   `).all() as Array<{
     id: string;
     area_context_id: string;

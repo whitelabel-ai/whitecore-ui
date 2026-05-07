@@ -5,7 +5,7 @@
 ## Estado actual
 
 - **Versión actual:** 0.1.0 (MVP)
-- **Milestone:** F0–F4 completados (Fundación, Auth, Gestión de Usuarios, Discovery por Áreas, Resumen Ejecutivo + Dashboard Consultora)
+- **Milestone:** F0–F5 completados (Fundación, Auth, Gestión de Usuarios, Discovery por Áreas, Resumen Ejecutivo + Dashboard Consultora, Exportar Informe)
 - **Bloqueantes:** Ninguno.
 
 ## Roadmap
@@ -17,8 +17,8 @@
 | F2 — Gestión de Usuarios | Company_admin invita usuarios company_user, soft delete de usuarios, UI /dashboard/users. | Completado | Done |
 | F3 — Discovery por Áreas | Formularios estructurados por las 8 áreas empresariales. Preguntas clave + campos libres. | Completado | Done |
 | F4 — Resumen Ejecutivo + Dashboard Consultora | Scoring por área, vista consolidada por empresa, dashboard de consultora con estado de completitud. | Completado | Done |
-| F5 — Exportar Informe | Exportar diagnóstico a PDF/JSON con branding. | Planning | — |
-| F6 — Exportar Informe | Exportar diagnóstico a PDF/JSON con branding. | Planning | — |
+| F5 — Exportar Informe | Exportar diagnóstico a JSON y vista HTML imprimible con branding. | Completado | Done |
+| F6 — Timeline de hallazgos | Historial de cambios en el diagnóstico. | Planning | — |
 
 ## Features en curso
 
@@ -81,7 +81,7 @@
 
 | Métrica | Valor objetivo | Actual |
 |---|---|---|
-| Cobertura de tests | > 80% | ~75% |
+| Cobertura de tests | > 80% | ~80% |
 | Deuda técnica documentada | 0 crítica | 0 |
 | Docs desactualizados (CDM) | 0 | 0 |
 

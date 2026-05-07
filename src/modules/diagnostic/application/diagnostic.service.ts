@@ -242,3 +242,70 @@ export function getCompaniesForSuperadmin() {
 
   return result;
 }
+
+export function generateDiagnosticReport(diagnosticCaseId: string) {
+  const caseRow = db.prepare(`
+    SELECT dc.id as case_id, dc.company_id, dc.status, dc.created_at, dc.updated_at,
+           c.name as company_name, c.industry, c.size
+    FROM diagnostic_cases dc
+    JOIN companies c ON c.id = dc.company_id
+    WHERE dc.id = ?
+  `).get(diagnosticCaseId) as {
+    case_id: string;
+    company_id: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+    company_name: string;
+    industry: string | null;
+    size: string | null;
+  } | undefined;
+
+  if (!caseRow) return null;
+
+  const areaRows = db.prepare(`
+    SELECT area_key, data_json, problems_json, opportunities, notes, created_at, updated_at
+    FROM area_contexts
+    WHERE diagnostic_case_id = ?
+    ORDER BY area_key
+  `).all(diagnosticCaseId) as Array<{
+    area_key: string;
+    data_json: string;
+    problems_json: string;
+    opportunities: string;
+    notes: string;
+    created_at: string;
+    updated_at: string;
+  }>;
+
+  const areas = areaRows.map((row) => {
+    const problems = JSON.parse(row.problems_json) as Array<{ description: string; severity: string }>;
+    return {
+      areaKey: row.area_key,
+      data: JSON.parse(row.data_json),
+      problems,
+      opportunities: row.opportunities,
+      notes: row.notes,
+      score: calculateAreaScore(problems),
+      updatedAt: row.updated_at,
+    };
+  });
+
+  const summary = getExecutiveSummary(diagnosticCaseId);
+
+  return {
+    caseId: caseRow.case_id,
+    company: {
+      id: caseRow.company_id,
+      name: caseRow.company_name,
+      industry: caseRow.industry,
+      size: caseRow.size,
+    },
+    status: caseRow.status,
+    createdAt: caseRow.created_at,
+    updatedAt: caseRow.updated_at,
+    generatedAt: new Date().toISOString(),
+    areas,
+    summary,
+  };
+}

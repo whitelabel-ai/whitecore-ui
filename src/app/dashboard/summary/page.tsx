@@ -1,5 +1,6 @@
-import { getExecutiveSummaryAction } from './actions';
+import { getExecutiveSummaryAction, getDiagnosticReportForExportAction } from './actions';
 import Link from 'next/link';
+import ExportButtons from './ExportButtons';
 
 const AREA_LABELS: Record<string, string> = {
   general: 'General / Perfil',
@@ -28,6 +29,7 @@ const SEVERITY_LABELS: Record<string, string> = {
 
 export default async function SummaryPage() {
   const summary = await getExecutiveSummaryAction();
+  const reportJson = await getDiagnosticReportForExportAction();
 
   if (!summary) {
     return (
@@ -45,7 +47,12 @@ export default async function SummaryPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
-      <h1 className="text-2xl font-bold mb-6">Resumen Ejecutivo</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">Resumen Ejecutivo</h1>
+        {reportJson && (
+          <ExportButtons reportJson={reportJson} companyName={JSON.parse(reportJson).company.name} />
+        )}
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <div className="bg-white rounded-lg shadow p-4">

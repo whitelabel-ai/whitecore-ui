@@ -1,6 +1,8 @@
 import { withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 
+const secret = process.env.NEXTAUTH_SECRET || 'dev-secret-local-change-in-production';
+
 export default withAuth(
   function middleware(req) {
     const token = req.nextauth.token;
@@ -13,6 +15,7 @@ export default withAuth(
     return NextResponse.next();
   },
   {
+    secret,
     callbacks: {
       authorized({ req, token }) {
         if (token) return true;

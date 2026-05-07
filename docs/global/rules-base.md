@@ -178,4 +178,4 @@ Antes de solicitar review de un PR, verifica:
 
 ---
 
-*Revisado: sesión F5. Estándares SOLID/DRY/KISS/YAGNI siguen siendo aplicables tras la adición de exportación de informes (`generateDiagnosticReport`). La lógica de dominio permanece pura; los componentes de UI (`ExportButtons`, `PrintButton`) y las Server Actions son adaptadores que no contaminan el dominio. El CDM verifica vigencia automáticamente.*
+*Revisado: sesión F6. Estándares SOLID/DRY/KISS/YAGNI siguen siendo aplicables tras auditoría (`auditAreaContextChange`) y timeline. La lógica de dominio permanece pura; las Server Actions manejan los side effects de auditoría. El CDM verifica vigencia automáticamente.*

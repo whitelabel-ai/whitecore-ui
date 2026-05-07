@@ -141,8 +141,9 @@ Empresa se registra (crea tenant)
 - **Sin backend externo en MVP:** toda la lógica de persistencia vive en API routes de Next.js + SQLite.
 - **Server Actions:** preferir Server Actions sobre API routes manuales para mutaciones simples.
 - **Áreas del diagnóstico:** El catálogo de 8 áreas es cerrado en MVP. No configurable.
-- **Auth:** NextAuth.js v5. El callback `session` debe incluir `companyId` y `role` para que el frontend y el backend sepan el contexto del usuario.
+- **Auth:** NextAuth.js v4 (v5 beta no era estable con Next.js 16). El callback `session` debe incluir `companyId` y `role`.
+- **Middleware:** `src/middleware.ts` usa `withAuth` de NextAuth v4 con `secret` explícito para compatibilidad con edge runtime.
 
 ---
 
-*Actualizar cuando cambie el stack o se agreguen dependencias principales.*
+*Revisado: sesión F6. Stack actualizado: NextAuth.js v4 estable, middleware con secret explícito para evitar error de configuración en dev. El CDM detectará cambios automáticamente.*

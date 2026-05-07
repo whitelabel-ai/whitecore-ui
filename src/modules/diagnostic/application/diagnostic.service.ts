@@ -33,7 +33,7 @@ const saveAreaSchema = z.object({
 export type SaveAreaInput = z.infer<typeof saveAreaSchema>;
 
 export type SaveAreaResult =
-  | { success: true }
+  | { success: true; areaContextId: string; action: 'create' | 'update' }
   | { success: false; error: string };
 
 export function saveAreaContext(input: SaveAreaInput): SaveAreaResult {
@@ -58,21 +58,26 @@ export function saveAreaContext(input: SaveAreaInput): SaveAreaResult {
   const now = new Date().toISOString();
   const existing = db.prepare('SELECT id FROM area_contexts WHERE diagnostic_case_id = ? AND area_key = ?').get(diagnosticCaseId, areaKey) as { id: string } | undefined;
 
+  let areaContextId: string;
+  let action: 'create' | 'update';
   if (existing) {
+    areaContextId = existing.id;
+    action = 'update';
     db.prepare(`
       UPDATE area_contexts
       SET data_json = ?, problems_json = ?, opportunities = ?, notes = ?, updated_at = ?
       WHERE id = ?
-    `).run(JSON.stringify(data), JSON.stringify(problems), opportunities, notes, now, existing.id);
+    `).run(JSON.stringify(data), JSON.stringify(problems), opportunities, notes, now, areaContextId);
   } else {
-    const id = crypto.randomUUID();
+    areaContextId = crypto.randomUUID();
+    action = 'create';
     db.prepare(`
       INSERT INTO area_contexts (id, diagnostic_case_id, area_key, data_json, problems_json, opportunities, notes, created_at, updated_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).run(id, diagnosticCaseId, areaKey, JSON.stringify(data), JSON.stringify(problems), opportunities, notes, now, now);
+    `).run(areaContextId, diagnosticCaseId, areaKey, JSON.stringify(data), JSON.stringify(problems), opportunities, notes, now, now);
   }
 
-  return { success: true };
+  return { success: true, areaContextId, action };
 }
 
 export function getAreaContext(diagnosticCaseId: string, areaKey: string) {
@@ -308,4 +313,79 @@ export function generateDiagnosticReport(diagnosticCaseId: string) {
     areas,
     summary,
   };
+}
+
+export function auditAreaContextChange(
+  areaContextId: string,
+  diagnosticCaseId: string,
+  companyId: string,
+  userId: string,
+  userName: string,
+  areaKey: string,
+  action: 'create' | 'update'
+) {
+  const now = new Date().toISOString();
+  db.prepare(`
+    INSERT INTO area_context_audits (id, area_context_id, diagnostic_case_id, company_id, user_id, user_name, area_key, action, created_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(crypto.randomUUID(), areaContextId, diagnosticCaseId, companyId, userId, userName, areaKey, action, now);
+}
+
+export function getTimelineByCompany(companyId: string) {
+  const rows = db.prepare(`
+    SELECT id, area_context_id, user_id, user_name, area_key, action, created_at
+    FROM area_context_audits
+    WHERE company_id = ?
+    ORDER BY created_at DESC
+  `).all(companyId) as Array<{
+    id: string;
+    area_context_id: string;
+    user_id: string;
+    user_name: string;
+    area_key: string;
+    action: string;
+    created_at: string;
+  }>;
+
+  return rows.map((row) => ({
+    id: row.id,
+    areaContextId: row.area_context_id,
+    userId: row.user_id,
+    userName: row.user_name,
+    areaKey: row.area_key,
+    action: row.action,
+    createdAt: row.created_at,
+  }));
+}
+
+export function getTimelineForSuperadmin() {
+  const rows = db.prepare(`
+    SELECT a.id, a.area_context_id, a.user_id, a.user_name, a.area_key, a.action, a.created_at,
+           c.name as company_name, a.company_id
+    FROM area_context_audits a
+    JOIN companies c ON c.id = a.company_id
+    ORDER BY a.created_at DESC
+  `).all() as Array<{
+    id: string;
+    area_context_id: string;
+    user_id: string;
+    user_name: string;
+    area_key: string;
+    action: string;
+    created_at: string;
+    company_name: string;
+    company_id: string;
+  }>;
+
+  return rows.map((row) => ({
+    id: row.id,
+    areaContextId: row.area_context_id,
+    userId: row.user_id,
+    userName: row.user_name,
+    areaKey: row.area_key,
+    action: row.action,
+    createdAt: row.created_at,
+    companyName: row.company_name,
+    companyId: row.company_id,
+  }));
 }

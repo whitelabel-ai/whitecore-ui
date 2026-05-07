@@ -1,6 +1,7 @@
 'use server';
 
-import { saveAreaContext, getAreaContext, DiagnosticArea } from '@/modules/diagnostic/application/diagnostic.service';
+import { saveAreaContext, getAreaContext, DiagnosticArea, auditAreaContextChange } from '@/modules/diagnostic/application/diagnostic.service';
+import { db } from '@/lib/db';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
@@ -34,6 +35,20 @@ export async function saveAreaContextAction(formData: FormData): Promise<void> {
 
   if (!result.success) {
     throw new Error(result.error);
+  }
+
+  // Audit log
+  const caseRow = db.prepare('SELECT company_id FROM diagnostic_cases WHERE id = ?').get(diagnosticCaseId) as { company_id: string } | undefined;
+  if (caseRow) {
+    auditAreaContextChange(
+      result.areaContextId,
+      diagnosticCaseId,
+      caseRow.company_id,
+      session.user.id as string,
+      session.user.name || 'Usuario',
+      areaKey,
+      result.action
+    );
   }
 
   revalidatePath(`/dashboard/diagnostic/${areaKey}`);

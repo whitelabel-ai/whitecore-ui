@@ -41,6 +41,10 @@ export default async function DashboardPage() {
               <h2 className="text-lg font-semibold text-gray-900">Resumen Ejecutivo</h2>
               <p className="text-sm text-gray-600 mt-2">Ver scoring, problemas prioritarios y oportunidades.</p>
             </Link>
+            <Link href="/dashboard/timeline" className="block bg-white rounded-lg shadow p-6 hover:shadow-md transition">
+              <h2 className="text-lg font-semibold text-gray-900">Timeline</h2>
+              <p className="text-sm text-gray-600 mt-2">Historial de cambios en el diagnóstico.</p>
+            </Link>
           </>
         )}
         {session.user.role === 'company_admin' && (
@@ -50,10 +54,16 @@ export default async function DashboardPage() {
           </Link>
         )}
         {session.user.role === 'superadmin' && (
-          <Link href="/admin/dashboard" className="block bg-white rounded-lg shadow p-6 hover:shadow-md transition border-l-4 border-purple-500">
-            <h2 className="text-lg font-semibold text-gray-900">Dashboard Consultora</h2>
-            <p className="text-sm text-gray-600 mt-2">Ver estado de todas las empresas registradas.</p>
-          </Link>
+          <>
+            <Link href="/admin/dashboard" className="block bg-white rounded-lg shadow p-6 hover:shadow-md transition border-l-4 border-purple-500">
+              <h2 className="text-lg font-semibold text-gray-900">Dashboard Consultora</h2>
+              <p className="text-sm text-gray-600 mt-2">Ver estado de todas las empresas registradas.</p>
+            </Link>
+            <Link href="/admin/timeline" className="block bg-white rounded-lg shadow p-6 hover:shadow-md transition border-l-4 border-purple-500">
+              <h2 className="text-lg font-semibold text-gray-900">Timeline Global</h2>
+              <p className="text-sm text-gray-600 mt-2">Historial de cambios de todas las empresas.</p>
+            </Link>
+          </>
         )}
       </div>
     </div>

@@ -5,7 +5,7 @@
 ## Estado actual
 
 - **Versión actual:** 0.1.0 (MVP)
-- **Milestone:** F0–F5 completados (Fundación, Auth, Gestión de Usuarios, Discovery por Áreas, Resumen Ejecutivo + Dashboard Consultora, Exportar Informe)
+- **Milestone:** F0–F6 completados (Fundación, Auth, Gestión de Usuarios, Discovery por Áreas, Resumen Ejecutivo + Dashboard Consultora, Exportar Informe, Timeline de Hallazgos)
 - **Bloqueantes:** Ninguno.
 
 ## Roadmap
@@ -18,7 +18,7 @@
 | F3 — Discovery por Áreas | Formularios estructurados por las 8 áreas empresariales. Preguntas clave + campos libres. | Completado | Done |
 | F4 — Resumen Ejecutivo + Dashboard Consultora | Scoring por área, vista consolidada por empresa, dashboard de consultora con estado de completitud. | Completado | Done |
 | F5 — Exportar Informe | Exportar diagnóstico a JSON y vista HTML imprimible con branding. | Completado | Done |
-| F6 — Timeline de hallazgos | Historial de cambios en el diagnóstico. | Planning | — |
+| F6 — Timeline de hallazgos | Auditoría de cambios por área, timeline por empresa y global para consultora. | Completado | Done |
 
 ## Features en curso
 
